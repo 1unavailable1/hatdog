@@ -19,6 +19,12 @@ void clearScreen() {
 #endif
 }
 
+// --- NEW Participant Structure ---
+struct Participant {
+    string name;
+    string course;
+};
+
 // --- Existing Event Structure ---
 struct Event {
     int id;
@@ -28,7 +34,8 @@ struct Event {
     string location;
     string department;
     int capacity;
-    int participants;
+    int participants; // This still tracks the count
+    vector<Participant> registeredParticipants; // NEW: Stores actual participant details
 
     // Overload the less than operator for sorting by name (for main events vector)
     // This allows std::sort to work directly on the events vector by name.
@@ -214,6 +221,7 @@ void addEvent() {
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
     newEvent.participants = 0; // New events start with 0 participants.
+    newEvent.registeredParticipants.clear(); // Initialize empty list
     cout << string(45, '*') << endl;
 
     events.push_back(newEvent);
@@ -313,8 +321,17 @@ void registerParticipant() {
     if (it != eventNameMap.end()) {
         Event* eventPtr = it->second;
         if (eventPtr->participants < eventPtr->capacity) {
-            eventPtr->participants++;
-            cout << "🎉 Successfully registered for '" << eventPtr->name << "'! 🎉" << endl;
+            Participant newParticipant;
+            cout << setw(30) << left << "| Enter participant's Name:";
+            getline(cin, newParticipant.name); // Using getline for names with spaces
+            cout << setw(30) << left << "| Enter participant's Course:";
+            getline(cin, newParticipant.course); // Using getline for courses with spaces
+
+            eventPtr->registeredParticipants.push_back(newParticipant); // Add participant to event
+            eventPtr->participants++; // Increment the count of participants
+
+            cout << "🎉 Successfully registered '" << newParticipant.name << "' from " << newParticipant.course
+                 << " for '" << eventPtr->name << "'! 🎉" << endl;
         } else {
             cout << "⚠️ UEvent '" << eventPtr->name << "' is already full. 😟" << endl;
         }
