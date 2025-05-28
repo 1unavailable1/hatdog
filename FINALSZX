@@ -205,7 +205,7 @@ void addEvent() {
         return;
     }
 
-    cout << setw(25) << left << "| Date (YYYY-MM-DD):";
+    cout << setw(25) << left << "| Date (MM-DD-YYYY):";
     cin >> newEvent.date;
     cout << setw(25) << left << "| Start Time (HH:MM):"; // NEW input for start time
     cin >> newEvent.startTime;
