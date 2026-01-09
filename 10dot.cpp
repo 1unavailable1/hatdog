@@ -1,42 +1,21 @@
-#include <iostream>
-using namespace std;
- 
-class Shape {
-  public:
-     void setWidth(int w) {
-        width = w;
-     }
-     void setHeight(int h) {
-        height = h;
-     }
-     
-  protected:
-     int width;
-     int height;
-};
- 
-class PaintCost {
-  public:
-     int getCost(int area) {
-        return area * 70;
-     }
-};
- 
-class Rectangle: public Shape, public PaintCost {
-  public:
-     int getArea() {
-        return (width * height);
-     }
-};
- 
-int main(void) {
-  Rectangle Rect;
-  int area;
- 
-  Rect.setWidth(5);
-  Rect.setHeight(7);
-  area = Rect.getArea();
-  cout << "Total area: " << Rect.getArea() << endl;
-  cout << "Total paint cost: $" << Rect.getCost(area) << endl;
-  system("pause");
+using System;
+using System.Diagnostics;
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine($"\n Process ID is: {Process.GetCurrentProcess().Id}");
+
+        Process child = Process.Start("whoami");
+        
+        if (child != null)
+        {
+            child.WaitForExit();
+        }
+        else
+        {
+            Console.WriteLine("fork failed");
+        }
+    }
 }
